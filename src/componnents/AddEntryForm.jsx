@@ -5,8 +5,6 @@ const AddEntryForm = ({ addEntry }) => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [type, setType] = useState("Income");
-  const [isCustomType, setIsCustomType] = useState(false);
-  const [customType, setCustomType] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,19 +30,12 @@ const AddEntryForm = ({ addEntry }) => {
       return;
     }
 
-    const entryType = isCustomType ? customType : type;
-
-    if (isCustomType && !customType.trim()) {
-      alert("Custom type cannot be empty.");
-      return;
-    }
-
     const entry = {
       id: Date.now(),
       amount: parseFloat(amount),
       description,
       date,
-      type: entryType,
+      type,
     };
 
     addEntry(entry);
@@ -52,8 +43,6 @@ const AddEntryForm = ({ addEntry }) => {
     setDescription("");
     setDate("");
     setType("Income");
-    setCustomType("");
-    setIsCustomType(false);
   };
 
   return (
@@ -89,31 +78,14 @@ const AddEntryForm = ({ addEntry }) => {
           className="border border-gray-300 p-3 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
           required
         />
-        {!isCustomType ? (
-          <select
-            value={type}
-            onChange={(e) => {
-              if (e.target.value === "Custom") {
-                setIsCustomType(true);
-              } else {
-                setType(e.target.value);
-              }
-            }}
-            className="border border-gray-300 p-3 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option value="Income">Income</option>
-            <option value="Expense">Expense</option>
-            <option value="Custom">Add Custom Type</option>
-          </select>
-        ) : (
-          <input
-            type="text"
-            placeholder="Enter custom type"
-            value={customType}
-            onChange={(e) => setCustomType(e.target.value)}
-            className="border border-gray-300 p-3 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        )}
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          className="border border-gray-300 p-3 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+        >
+          <option value="Income">Income</option>
+          <option value="Expense">Expense</option>
+        </select>
       </div>
       <button
         type="submit"
