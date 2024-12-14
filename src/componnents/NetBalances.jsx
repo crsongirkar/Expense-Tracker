@@ -4,11 +4,19 @@ const NetBalance = ({ entries }) => {
   const totalIncome = entries
     .filter((entry) => entry.type === "Income")
     .reduce((acc, entry) => acc + entry.amount, 0);
+    
   const totalExpense = entries
     .filter((entry) => entry.type === "Expense")
     .reduce((acc, entry) => acc + entry.amount, 0);
 
+    const UserTotal = entries
+    .filter((entry) => entry.name == entry.name)
+    .reduce((acc, entry) => acc + entry.amount, 0);
+
   const netBalance = totalIncome - totalExpense;
+  const UserBal = UserTotal;
+
+  console.log(UserBal);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6 flex items-center justify-between">
@@ -77,9 +85,13 @@ const DeletedEntries = ({ deletedEntries }) => {
               className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
             >
               <div>
+              <p className="text-lg font-medium text-gray-800">
+                  {entry.name}
+                </p>
                 <p className="text-sm text-gray-600">{entry.date}</p>
                 <p className="text-lg font-medium text-gray-800">
                   {entry.description}
+                  
                 </p>
                 <span
                   className={`inline-block mt-1 px-3 py-1 rounded-full text-sm font-medium ${
@@ -98,7 +110,7 @@ const DeletedEntries = ({ deletedEntries }) => {
                     : "text-red-600"
                 }`}
               >
-                ₹{entry.amount.toFixed(2)}
+                ₹{entry.netBalance.toFixed(2)}
               </p>
             </li>
           ))}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const AddEntryForm = ({ addEntry }) => {
+  const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -31,14 +32,17 @@ const AddEntryForm = ({ addEntry }) => {
     }
 
     const entry = {
+      name,
       id: Date.now(),
       amount: parseFloat(amount),
       description,
       date,
       type,
     };
+    
 
     addEntry(entry);
+    setName("");
     setAmount("");
     setDescription("");
     setDate("");
@@ -54,6 +58,14 @@ const AddEntryForm = ({ addEntry }) => {
         Add New Entry
       </h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <input
+          type="text"
+          placeholder="UserName"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="border border-gray-300 p-3 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+          required
+        />
         <input
           type="number"
           placeholder="Amount"
